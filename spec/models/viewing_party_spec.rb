@@ -24,7 +24,7 @@ RSpec.describe ViewingParty do
     stub_request(:get, "https://api.themoviedb.org/3/movie/238?api_key=#{ENV['MOVIE_DB_KEY']}")
       .to_return(status: 200, body: json_response, headers: {})
 
-    @user_1 = create(:user)
+    @user_1 = create(:user, password: "test_password")
     @movie_detail = MovieDetail.new(JSON.parse(json_response, symbolize_names: true))
     @viewing_party_1 = ViewingParty.create!(duration: '180', host_id: @user_1.id, movie_id: @movie_detail.id,
                                             party_date: Date.today, party_time: '17:00')
