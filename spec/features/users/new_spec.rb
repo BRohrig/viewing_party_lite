@@ -7,7 +7,7 @@ RSpec.describe 'user registration page' do
     visit register_path
   end
 
-  describe 'initial tests' do
+  describe 'user creation' do
     it 'has a form to create a new user' do
       ViewingPartyUser.delete_all
       ViewingParty.delete_all
@@ -49,6 +49,27 @@ RSpec.describe 'user registration page' do
 
       expect(current_path).to eq(register_path)
       expect(page).to have_content('Cannot use existing email')
+    end
+
+    it 'provides an appropriate error message when name is not filled in' do
+      fill_in('Email', with: 'LifeFindsAWay@gmail.com')
+      fill_in('Password', with: "test_password")
+      fill_in('Password Confirmation', with: "test_password")
+      click_on "Create New User"
+
+      expect(current_path).to eq(register_path)
+      expect(page).to have_content("Please Input Name")
+    end
+
+    it 'provides an appropriate error message when password and confirmation do not match' do
+      fill_in('Name', with: 'Jeff Goldblum')
+      fill_in('Email', with: 'JurassicSnark@gmail.com')
+      fill_in('Password', with: "test_password")
+      fill_in('Password Confirmation', with: "I am Bad at This")
+      click_on 'Create New User'
+
+      expect(current_path).to eq(register_path)
+      expect(page).to have_content("Passwords Must Match")
     end
   end
 end
