@@ -23,17 +23,15 @@ class UsersController < ApplicationController
     if user.save
       flash[:success] = 'User has been created!'
       redirect_to user_path(user)
-    elsif params[:password] != params[:password_confirmation]
-      flash[:error] = "Passwords Must Match"
-      redirect_to register_path
-    elsif user.name == ""
-      flash[:error] = "Please Input Name"
-      redirect_to register_path
     else
-      flash[:error] = 'Cannot use existing email'
+      flash[:error] = user.errors.full_messages.to_sentence
       redirect_to register_path
     end
   end
+
+  def login_form
+  end
+
 
   private
 
