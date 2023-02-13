@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   root 'landing#index'
   get '/login', to: "users#login_form"
+  post '/login', to: "users#login"
 
   get '/users/:id/discover', to: 'users#discover_movies'
   get '/users/:id/movies', to: 'user_movies#details'
