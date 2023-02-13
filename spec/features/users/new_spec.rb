@@ -15,12 +15,16 @@ RSpec.describe 'user registration page' do
 
       expect(page).to have_field('Name')
       expect(page).to have_field('Email')
+      expect(page).to have_field("Password")
+      expect(page).to have_field("Password Confirmation")
       expect(page).to have_button('Create New User')
     end
 
     it 'can be filled in and submitted' do
       fill_in('Name', with: 'Jeff Goldblum')
       fill_in('Email', with: 'JurassicSnark@gmail.com')
+      fill_in('Password', with: "test_password")
+      fill_in('Password Confirmation', with: "test_password")
       click_on 'Create New User'
 
       expect(current_path).to eq(user_path(User.last.id))
