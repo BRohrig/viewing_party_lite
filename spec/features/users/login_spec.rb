@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "log in" do
-  before(:all) do
+  before(:each) do
     @user = create(:user, password: "this is only a test")
     visit login_path
   end
@@ -10,6 +10,15 @@ RSpec.describe "log in" do
     expect(page).to have_field :email
     expect(page).to have_field :password
     expect(page).to have_button("Log In")
+  end
+
+  it 'allows the user to log in with correct credentials' do
+    fill_in :email, with: @user.email
+    fill_in :password, with: @user.password
+    click_button("Log In")
+
+    expect(current_path).to eq(user_path(@user.id))
+    expect(page).to have_content("Welcome #{@user.name}!")
   end
 
 
