@@ -21,6 +21,15 @@ RSpec.describe "log in" do
     expect(page).to have_content("Welcome #{@user.name}!")
   end
 
+  it 'does not allow a login with invalid credentials' do
+    fill_in :email, with: @user.email
+    fill_in :password, with: "I am teh leetest haxxor"
+    click_button("Log In")
+
+    expect(current_path).to eq(login_path)
+    expect(page).to have_content("Credentials Invalid.")
+  end
+
 
 
 end
