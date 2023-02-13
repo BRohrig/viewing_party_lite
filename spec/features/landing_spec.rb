@@ -12,21 +12,6 @@ RSpec.describe 'Application' do
     expect(current_path).to eq('/register')
   end
 
-  it 'has existing users with links to their dashboards' do
-    user_1 = create(:user, password: "test_password")
-    user_2 = create(:user, password: "test_password2")
-
-    visit root_path
-    within('#users') do
-      expect(page).to have_content('Existing Users')
-      expect(page).to have_link(user_1.name)
-      expect(page).to have_link(user_2.name)
-    end
-
-    click_link(user_1.name.to_s)
-    expect(current_path).to eq("/users/#{user_1.id}")
-  end
-
   it 'has a link back to landing page' do
     visit root_path
 
@@ -35,5 +20,15 @@ RSpec.describe 'Application' do
     click_link('Home')
 
     expect(current_path).to eq(root_path)
+  end
+
+  it 'has a link to log in with my unique credentials' do
+    visit root_path
+
+    within "#users" do
+      expect(page).to have_link("Log In")
+      click_link("Log In")
+      expect(current_path).to eq(login_path)
+    end
   end
 end

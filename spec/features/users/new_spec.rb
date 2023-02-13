@@ -48,7 +48,7 @@ RSpec.describe 'user registration page' do
       click_on 'Create New User'
 
       expect(current_path).to eq(register_path)
-      expect(page).to have_content('Cannot use existing email')
+      expect(page).to have_content('Email has already been taken')
     end
 
     it 'provides an appropriate error message when name is not filled in' do
@@ -58,7 +58,7 @@ RSpec.describe 'user registration page' do
       click_on "Create New User"
 
       expect(current_path).to eq(register_path)
-      expect(page).to have_content("Please Input Name")
+      expect(page).to have_content("Name can't be blank")
     end
 
     it 'provides an appropriate error message when password and confirmation do not match' do
@@ -69,7 +69,7 @@ RSpec.describe 'user registration page' do
       click_on 'Create New User'
 
       expect(current_path).to eq(register_path)
-      expect(page).to have_content("Passwords Must Match")
+      expect(page).to have_content("Password confirmation doesn't match Password")
     end
   end
 end

@@ -19,21 +19,32 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = User.new(user_params)
-    if user.save
+    user = user_params
+    user[:email] = user[:email].downcase
+    new_user = User.new(user)
+    if new_user.save
       flash[:success] = 'User has been created!'
-      redirect_to user_path(user)
-    elsif params[:password] != params[:password_confirmation]
-      flash[:error] = "Passwords Must Match"
-      redirect_to register_path
-    elsif user.name == ""
-      flash[:error] = "Please Input Name"
-      redirect_to register_path
+      redirect_to user_path(new_user)
     else
-      flash[:error] = 'Cannot use existing email'
+      flash[:error] = new_user.errors.full_messages.to_sentence
       redirect_to register_path
     end
   end
+
+  def login_form
+  end
+
+  def login
+    user = User.find_by(email: params[:email])
+    if user.authenticate(params[:password])
+      flash[:success] = "Welcome #{user.name}!"
+      redirect_to user_path(user.id)
+    else
+      flash[:error] = "Credentials Invalid."
+      redirect_to login_path
+    end
+  end
+
 
   private
 
