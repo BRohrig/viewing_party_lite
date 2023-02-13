@@ -36,11 +36,15 @@ RSpec.describe 'user registration page' do
     it 'returns an error if the email has an existing user' do
       fill_in('Name', with: 'Jeff Goldblum')
       fill_in('Email', with: 'JurassicSnark@gmail.com')
+      fill_in('Password', with: "test_password")
+      fill_in('Password Confirmation', with: "test_password")
       click_on 'Create New User'
       visit register_path
 
       fill_in('Name', with: 'John Doe')
       fill_in('Email', with: 'JurassicSnark@gmail.com')
+      fill_in('Password', with: "test_password")
+      fill_in('Password Confirmation', with: "test_password")
       click_on 'Create New User'
 
       expect(current_path).to eq(register_path)
