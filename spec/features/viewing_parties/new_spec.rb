@@ -6,10 +6,10 @@ RSpec.describe 'new view party page' do
     ViewingParty.delete_all
     User.delete_all
 
-    @user = create(:user)
-    @user2 = create(:user)
-    @user3 = create(:user)
-    @user4 = create(:user)
+    @user = create(:user, password: "test_password")
+    @user2 = create(:user, password: "test_password2")
+    @user3 = create(:user, password: "test_password3")
+    @user4 = create(:user, password: "test_password4")
 
     json_response = File.read('spec/fixtures/movie.json')
     stub_request(:get, "https://api.themoviedb.org/3/movie/238?api_key=#{ENV['MOVIE_DB_KEY']}")

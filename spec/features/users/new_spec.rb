@@ -7,7 +7,7 @@ RSpec.describe 'user registration page' do
     visit register_path
   end
 
-  describe 'initial tests' do
+  describe 'user creation' do
     it 'has a form to create a new user' do
       ViewingPartyUser.delete_all
       ViewingParty.delete_all
@@ -15,12 +15,16 @@ RSpec.describe 'user registration page' do
 
       expect(page).to have_field('Name')
       expect(page).to have_field('Email')
+      expect(page).to have_field("Password")
+      expect(page).to have_field("Password Confirmation")
       expect(page).to have_button('Create New User')
     end
 
     it 'can be filled in and submitted' do
       fill_in('Name', with: 'Jeff Goldblum')
       fill_in('Email', with: 'JurassicSnark@gmail.com')
+      fill_in('Password', with: "test_password")
+      fill_in('Password Confirmation', with: "test_password")
       click_on 'Create New User'
 
       expect(current_path).to eq(user_path(User.last.id))
@@ -32,15 +36,40 @@ RSpec.describe 'user registration page' do
     it 'returns an error if the email has an existing user' do
       fill_in('Name', with: 'Jeff Goldblum')
       fill_in('Email', with: 'JurassicSnark@gmail.com')
+      fill_in('Password', with: "test_password")
+      fill_in('Password Confirmation', with: "test_password")
       click_on 'Create New User'
       visit register_path
 
       fill_in('Name', with: 'John Doe')
       fill_in('Email', with: 'JurassicSnark@gmail.com')
+      fill_in('Password', with: "test_password")
+      fill_in('Password Confirmation', with: "test_password")
       click_on 'Create New User'
 
       expect(current_path).to eq(register_path)
       expect(page).to have_content('Cannot use existing email')
+    end
+
+    it 'provides an appropriate error message when name is not filled in' do
+      fill_in('Email', with: 'LifeFindsAWay@gmail.com')
+      fill_in('Password', with: "test_password")
+      fill_in('Password Confirmation', with: "test_password")
+      click_on "Create New User"
+
+      expect(current_path).to eq(register_path)
+      expect(page).to have_content("Please Input Name")
+    end
+
+    it 'provides an appropriate error message when password and confirmation do not match' do
+      fill_in('Name', with: 'Jeff Goldblum')
+      fill_in('Email', with: 'JurassicSnark@gmail.com')
+      fill_in('Password', with: "test_password")
+      fill_in('Password Confirmation', with: "I am Bad at This")
+      click_on 'Create New User'
+
+      expect(current_path).to eq(register_path)
+      expect(page).to have_content("Passwords Must Match")
     end
   end
 end

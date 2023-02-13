@@ -13,8 +13,8 @@ RSpec.describe 'Application' do
   end
 
   it 'has existing users with links to their dashboards' do
-    user_1 = create(:user)
-    user_2 = create(:user)
+    user_1 = create(:user, password: "test_password")
+    user_2 = create(:user, password: "test_password2")
 
     visit root_path
     within('#users') do

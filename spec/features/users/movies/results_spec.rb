@@ -7,7 +7,7 @@ RSpec.describe 'movies results page' do
     ViewingPartyUser.delete_all
     ViewingParty.delete_all
     User.delete_all
-    @user = create(:user)
+    @user = create(:user, password: "test_password")
     top_20_response = File.read('spec/fixtures/topmovies.json')
     stub_request(:get, "https://api.themoviedb.org/3/movie/top_rated?api_key=#{ENV['MOVIE_DB_KEY']}")
       .to_return(status: 200, body: top_20_response)

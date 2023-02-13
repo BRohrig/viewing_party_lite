@@ -8,8 +8,8 @@ RSpec.describe "Movie's detail page" do
     ViewingParty.delete_all
     User.delete_all
 
-    @user_1 = create(:user)
-    @user_2 = create(:user)
+    @user_1 = create(:user, password: "test_password")
+    @user_2 = create(:user, password: "test_password2")
 
     json_response = File.read('spec/fixtures/movie.json')
     stub_request(:get, "https://api.themoviedb.org/3/movie/238?api_key=#{ENV['MOVIE_DB_KEY']}")
