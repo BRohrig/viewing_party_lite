@@ -21,10 +21,16 @@ class UsersController < ApplicationController
   def create
     user = User.new(user_params)
     if user.save
-      flash.notice = 'User has been created!'
+      flash[:success] = 'User has been created!'
       redirect_to user_path(user)
+    elsif params[:password] != params[:password_confirmation]
+      flash[:error] = "Passwords Must Match"
+      redirect_to register_path
+    elsif user.name == ""
+      flash[:error] = "Please Input Name"
+      redirect_to register_path
     else
-      flash.alert = 'Cannot use existing email'
+      flash[:error] = 'Cannot use existing email'
       redirect_to register_path
     end
   end
@@ -32,6 +38,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(:name, :email, :password)
+    params.permit(:name, :email, :password, :password_confirmation)
   end
 end
