@@ -14,23 +14,37 @@ RSpec.describe 'Application' do
 
   it 'has a link back to landing page' do
     visit root_path
-
     expect(page).to have_link('Home')
 
     click_link('Home')
-
     expect(current_path).to eq(root_path)
+  end
+
+  it 'has a list of user emails displayed' do
+    user = create(:user)
+    user2 = create(:user)
+    user3 = create(:user)
+    user4 = create(:user)
+    visit root_path
+
+    within "#user_list" do
+      expect(page).to have_content(user.email)
+      expect(page).to have_content(user2.email)
+      expect(page).to have_content(user3.email)
+      expect(page).to have_content(user4.email)
+    end
   end
 
   it 'has a link to log in with my unique credentials' do
     visit root_path
 
-    within "#users" do
+    within "#user_login" do
       expect(page).to have_link("Log In")
       click_link("Log In")
       expect(current_path).to eq(login_path)
     end
   end
+
   describe "session/logout" do
     before(:each) do
       @user = create(:user, password: "testing")
