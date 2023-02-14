@@ -53,6 +53,7 @@ RSpec.describe 'Application' do
       click_link("Log Out")
       expect(current_path).to eq(root_path)
       expect(page).to have_content("Logged Out Successfully")
+      expect(page).to_not have_link("Log Out")
       expect(page).to have_button("Create a New User")
       expect(page).to have_link("Log In")
     end
