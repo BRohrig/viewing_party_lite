@@ -71,5 +71,18 @@ RSpec.describe 'user registration page' do
       expect(current_path).to eq(register_path)
       expect(page).to have_content("Password confirmation doesn't match Password")
     end
+
+    # it 'stores a user id in the session upon successful creation' do
+    #   fill_in("Name", with: "Sammy Session")
+    #   fill_in("Email", with: "sam@sam.sam")
+    #   fill_in("Password", with: "samsamsam")
+    #   fill_in("Password Confirmation", with: "samsamsam")
+    #   click_on "Create New User"
+      
+    #   expect(current_path).to eq(user_path(User.find_by name: "Sammy Session"))
+     
+    #   expect(session).to eq(User.find_by name: "Sammy Session").id
+
+    # end
   end
 end
