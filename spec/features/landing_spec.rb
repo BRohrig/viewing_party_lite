@@ -46,7 +46,15 @@ RSpec.describe 'Application' do
       expect(page).to_not have_link("Log In")
       expect(page).to_not have_button("Create a New User")
       expect(page).to have_link("Log Out")
+    end
 
+    it 'deletes the session and user_id and returns to landing page after log out' do
+      visit root_path
+      click_link("Log Out")
+      expect(current_path).to eq(root_path)
+      expect(page).to have_content("Logged Out Successfully")
+      expect(page).to have_button("Create a New User")
+      expect(page).to have_link("Log In")
     end
   end
 end
