@@ -73,6 +73,13 @@ RSpec.describe "Movie's detail page" do
     end
   end
 
+  it 'does not allow a visitor to create a new viewing party if not logged in' do
+    click_button("Create a Viewing Party for #{@movie_detail.title}")
+    expect(current_path).to eq(visit "/users/#{@user_1.id}/movies/#{@movie_detail.id}")
+    expect(page).to have_content("You Must Be Logged in to Visit this Page")
+
+  end
+
   describe 'review API consumption' do
     before(:each) do
       json_response = File.read('spec/fixtures/reviews.json')
