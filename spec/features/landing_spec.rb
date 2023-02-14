@@ -73,4 +73,17 @@ RSpec.describe 'Application' do
       expect(page).to have_link("Log In")
     end
   end
+
+  describe "access to other pages restricted when not logged in" do
+    it 'does not allow a user to visit the discover page' do
+      user = create(:user)
+
+      visit user_path(user.id)
+      expect(current_path).to eq(root_path)
+      expect(page).to have_content("You Must Be Logged in to Visit this Page")
+
+    end
+
+
+  end
 end
