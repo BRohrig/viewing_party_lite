@@ -28,6 +28,7 @@ RSpec.describe 'Application' do
     visit root_path
 
     within "#user_list" do
+      expect(page).to have_content("Registered Users:")
       expect(page).to have_content(user.email)
       expect(page).to have_content(user2.email)
       expect(page).to have_content(user3.email)
