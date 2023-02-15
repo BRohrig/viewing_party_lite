@@ -7,4 +7,7 @@ class MoviesController < ApplicationController
     @cast = MovieFacade.top_cast(params[:id])
     @reviews = MovieFacade.reviews(params[:id])
   end
+
+
+  
 end
